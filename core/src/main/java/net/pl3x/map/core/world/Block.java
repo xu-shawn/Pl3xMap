@@ -23,6 +23,7 @@
  */
 package net.pl3x.map.core.world;
 
+import java.util.Map;
 import java.util.Objects;
 import net.pl3x.map.core.Keyed;
 import net.pl3x.map.core.configuration.ColorsConfig;
@@ -35,7 +36,7 @@ public final class Block extends Keyed {
     private final int color;
     private final int vanilla;
     private final byte bools;
-    private final BlockState defaultState;
+    private BlockState defaultState;
 
     public Block(int index, String id, int vanilla) {
         super(id);
@@ -113,6 +114,10 @@ public final class Block extends Keyed {
         return this.defaultState;
     }
 
+    public void setDefaultState(Map<String, String> properties) {
+        this.defaultState = new BlockState(this, properties);
+    }
+
     @Override
     public boolean equals(@Nullable Object o) {
         if (this == o) {
@@ -128,13 +133,12 @@ public final class Block extends Keyed {
         return Objects.equals(getKey(), other.getKey())
                 && color() == other.color()
                 && getIndex() == other.getIndex()
-                && this.bools == other.bools
-                && getDefaultState().equals(other.defaultState);
+                && this.bools == other.bools;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getKey(), color(), getIndex(), this.bools, getDefaultState());
+        return Objects.hash(getKey(), color(), getIndex(), this.bools);
     }
 
     @Override

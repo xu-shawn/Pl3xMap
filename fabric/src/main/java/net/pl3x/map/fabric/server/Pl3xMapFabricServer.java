@@ -26,6 +26,7 @@ package net.pl3x.map.fabric.server;
 import com.google.common.collect.ImmutableList;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -223,7 +224,7 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
 
     @Override
     public int getColorForPower(byte power) {
-        return RedstoneWireBlock.getColorForPower(power);
+        return RedstoneWireBlock.getColorForPower(Math.clamp(power, 0, 15));
     }
 
     private List<Feature> getBoneMealFeatures(Biome biome) {
@@ -268,7 +269,9 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
         for (Map.Entry<ResourceKey<Block>, Block> entry : entries) {
             String id = entry.getKey().identifier().toString();
             int color = entry.getValue().defaultMapColor().col;
-            getBlockRegistry().register(id, color);
+            Map<String, String> properties = new HashMap<>();
+            entry.getValue().defaultBlockState().getValues().forEach(value -> properties.put(value.property().getName(), value.valueName()));
+            getBlockRegistry().register(id, color).setDefaultState(properties);
         }
         getBlockRegistry().saveToDisk();
     }

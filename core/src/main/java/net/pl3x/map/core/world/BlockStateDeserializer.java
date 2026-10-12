@@ -37,7 +37,7 @@ public class BlockStateDeserializer implements TypeDeserializer<BlockState> {
     @Override
     public BlockState read(NBTReader reader) throws IOException {
         if (reader.peek() == TagType.STRING)
-            return new BlockState(Pl3xMap.api().getBlockRegistry().getOrDefault(reader.nextString(), Blocks.AIR));
+            return Pl3xMap.api().getBlockRegistry().getOrDefault(reader.nextString(), Blocks.AIR).getDefaultState();
 
         reader.beginCompound();
 
@@ -63,7 +63,7 @@ public class BlockStateDeserializer implements TypeDeserializer<BlockState> {
         if (id == null) return Blocks.AIR.getDefaultState();
 
         Block block = Pl3xMap.api().getBlockRegistry().getOrDefault(id, Blocks.AIR);
-        return properties == null ? new BlockState(block) : new BlockState(block, properties);
+        return properties == null ? block.getDefaultState() : new BlockState(block, properties);
     }
 
 }
