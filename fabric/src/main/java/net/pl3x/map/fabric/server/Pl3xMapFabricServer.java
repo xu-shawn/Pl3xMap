@@ -224,7 +224,7 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
 
     @Override
     public int getColorForPower(byte power) {
-        return RedstoneWireBlock.getColorForPower(Math.clamp(power, 0, 15));
+        return RedstoneWireBlock.getColorForPower(power);
     }
 
     private List<Feature> getBoneMealFeatures(Biome biome) {

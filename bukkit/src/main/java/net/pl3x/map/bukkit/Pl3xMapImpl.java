@@ -167,7 +167,7 @@ public class Pl3xMapImpl extends Pl3xMap {
 
     @Override
     public int getColorForPower(byte power) {
-        return RedstoneWireBlock.getColorForPower(Math.clamp(power, 0, 15));
+        return RedstoneWireBlock.getColorForPower(power);
     }
 
     private List<Feature> getBoneMealFeatures(Biome biome) {
